@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1200">
+  <title>学习轨迹 | 我的 AI 学习之路</title>
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html">AI 学习之路</a>
+      <div class="nav-links">
+        <a href="index.html">首页</a>
+        <a href="about.html">关于我</a>
+        <a href="projects.html">项目</a>
+        <a href="trajectory.html" class="active">学习轨迹</a>
+        <a href="blog.html">博客</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-main">
+
+    <section class="page-head">
+      <h1 class="neon-title">学习轨迹</h1>
+      <p>一条从零开始的 AI 学习路线。节点按时间从左到右排列（最早在左、最近在右），加载时会依次点亮，引导你按顺序浏览。</p>
+    </section>
+
+    <!-- 横向时间线：内容由 js/timeline.js 自动生成 -->
+    <div id="full-timeline"></div>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>联系方式：<span class="placeholder">me@example.com（待填写）</span> · 托管于 GitHub Pages（免费静态网站 static website）</p>
+    <p>© 2026 · 我的 AI 学习之路</p>
+  </footer>
+
+  <script src="js/timeline.js"></script>
+  <script>
+    renderTimeline(document.getElementById("full-timeline"), {
+      maxItems: 0,
+      animated: true
+    });
+  </script>
+</body>
+</html>
