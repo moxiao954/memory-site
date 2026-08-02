@@ -13,18 +13,29 @@
  *   }
  *
  *   - link 留空时，该节点不显示链接。
- *   - 删除示例节点（title 带“示例”二字的那条）后，页面显示“待开始记录”提示，
- *     时间线框架仍保留。
+ *   - 数组为空时，页面显示“待开始记录”提示，时间线框架仍保留。
  *   - 添加记录后无需修改任何 HTML 文件，刷新页面即可看到。
  * ============================================================
  */
 
 var timelineData = [
   {
-    time: "2026.08",
-    title: "搭建个人学习分享网站（示例）",
-    desc: "这是示例节点，用来演示时间线效果。正式开始记录时，请删除本条。",
+    time: "2026.07",
+    title: "入门 Claude Code，接入 DeepSeek 大模型",
+    desc: "学会使用 cc switch 工具把 Claude Code 的模型接口转接到 DeepSeek，开始低成本使用 AI 辅助学习。",
     link: ""
+  },
+  {
+    time: "2026.07",
+    title: "认识 AI 开发工具生态",
+    desc: "学习了 Skills（技能）、MCP 服务器（MCP server）、CLI 工具（command-line interface）等概念，理解了这些工具如何让 AI 帮人干活。",
+    link: ""
+  },
+  {
+    time: "2026.08",
+    title: "搭建个人网站并上传到 GitHub",
+    desc: "使用 Claude Code + DeepSeek 从零搭建了深色科幻风格的个人学习分享网站，发布到 GitHub Pages（GitHub Pages）免费托管，正式上线。",
+    link: "https://moxiao954.github.io/memory-site/"
   }
 ];
 
@@ -108,10 +119,11 @@ function renderTimeline(container, options) {
   container.innerHTML = html;
 
   // ---- 依次点亮动画：每个节点设置递增 animation-delay 后触发 ----
+  // 注意：delayMs 是毫秒，CSS 用 ms 单位（如 "450ms"）
   if (animated) {
     var nodes = container.querySelectorAll(".tl-node");
     for (var k = 0; k < nodes.length; k++) {
-      nodes[k].style.animationDelay = (delayMs * k).toFixed(3) + "s";
+      nodes[k].style.animationDelay = (delayMs * k) + "ms";
       nodes[k].classList.add("animate");
     }
   }

@@ -49,19 +49,6 @@ body::before {
     radial-gradient(1px 1px at 60% 88%, rgba(0,229,255,.5), transparent 100%);
 }
 
-/* 网格线背景 */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(rgba(124,77,255,.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(124,77,255,.05) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-
 /* 让实际内容浮在背景之上 */
 .site-nav, .page-main, .site-footer { position: relative; z-index: 1; }
 
@@ -295,6 +282,13 @@ body::after {
   color: var(--text-dim); font-size: 14px;
   flex-shrink: 0;
   text-align: center;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,229,255,.15);
+}
+.avatar-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
 }
 .about-info { flex: 1; }
 .about-info h2 { font-size: 22px; margin-bottom: 12px; }
