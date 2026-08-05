@@ -673,9 +673,9 @@ body {
   width: 16px; height: 16px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #fff, var(--cyan) 70%);
+  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.7), rgba(0, 229, 255, 0.45) 60%, rgba(0, 229, 255, 0.15) 100%);
   border: 3px solid var(--bg-end);
-  box-shadow: 0 0 12px var(--cyan), 0 0 24px rgba(0, 229, 255, 0.2);
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.25), 0 0 16px rgba(0, 229, 255, 0.08);
   z-index: 2;
 }
 
@@ -733,9 +733,9 @@ body {
 
 /* 当前节点（最新）：绿点 + "最新"角标 + 绿色时间 */
 .tl-node-current .tl-dot {
-  background: radial-gradient(circle at 35% 35%, #fff, var(--green) 70%);
+  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.7), rgba(52, 211, 153, 0.45) 60%, rgba(52, 211, 153, 0.15) 100%);
   border-color: var(--bg-end);
-  box-shadow: 0 0 12px var(--green), 0 0 24px rgba(52, 211, 153, 0.25);
+  box-shadow: 0 0 8px rgba(52, 211, 153, 0.25), 0 0 16px rgba(52, 211, 153, 0.1);
 }
 .tl-node-current .tl-time {
   color: var(--green);
@@ -875,6 +875,18 @@ body {
   flex-direction: column;
   padding: 0;
   overflow: hidden;
+}
+.project-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+.project-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-top: 10px;
+  flex: 1;
 }
 .project-cover {
   height: 160px;
