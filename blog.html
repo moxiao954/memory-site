@@ -5,9 +5,15 @@
   <meta name="viewport" content="width=1200">
   <title>博客 | 我的 AI 学习之路</title>
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+  <div class="ambient-glow"></div>
+  <div id="particles"></div>
 
   <nav class="site-nav">
     <div class="nav-inner">
@@ -19,29 +25,70 @@
         <a href="trajectory.html">学习轨迹</a>
         <a href="blog.html" class="active">博客</a>
       </div>
+      <a class="btn-glass nav-cta" href="mailto:3500067370@qq.com">联系</a>
     </div>
   </nav>
 
   <main class="page-main">
 
-    <section class="page-head">
-      <h1 class="neon-title">博客</h1>
+    <!-- 页面头部 -->
+    <section class="page-header">
+      <div class="page-kicker">ARTICLES</div>
+      <h1 class="page-title">博客</h1>
       <p>学习笔记、踩坑记录与技术分享。第一篇还在路上。</p>
     </section>
 
-    <section class="article-list">
-      <div class="article-empty">
-        <div class="a-title">还没有文章</div>
-        <p>作者正在学习中，第一篇学习笔记很快就会出现在这里。</p>
-      </div>
+    <!-- 空状态 -->
+    <section class="blog-empty">
+      <div class="blog-empty-icon">📄</div>
+      <div class="blog-empty-title">暂无文章</div>
+      <p>博客内容正在筹备中，敬请期待。</p>
+      <a class="btn-outline" href="index.html">去首页看看</a>
+    </section>
+
+    <!-- 未来内容骨架（暗示后续文章） -->
+    <section class="article-skeletons" aria-hidden="true">
+      <div class="article-skeleton"></div>
+      <div class="article-skeleton"></div>
+      <div class="article-skeleton"></div>
     </section>
 
   </main>
 
   <footer class="site-footer">
-    <p>联系方式：<a href="mailto:3500067370@qq.com">3500067370@qq.com</a> · <a href="https://github.com/moxiao954" target="_blank" rel="noopener">GitHub</a> · 托管于 GitHub Pages（免费静态网站 static website）</p>
-    <p>© 2026 · 我的 AI 学习之路</p>
+    <div class="footer-inner">
+      <div class="footer-cols">
+        <div class="footer-brand">
+          <div class="footer-brand-name">AI 学习之路</div>
+          <p>一个 0 基础、非程序员出身的普通学生，在这里记录学习 AI 的真实历程。</p>
+        </div>
+        <div class="footer-col">
+          <h4>快速链接</h4>
+          <ul>
+            <li><a href="index.html">首页</a></li>
+            <li><a href="about.html">关于我</a></li>
+            <li><a href="projects.html">项目</a></li>
+            <li><a href="trajectory.html">学习轨迹</a></li>
+            <li><a href="blog.html">博客</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>联系</h4>
+          <ul>
+            <li><a href="mailto:3500067370@qq.com">3500067370@qq.com</a></li>
+            <li><a class="has-arrow" href="https://github.com/moxiao954" target="_blank" rel="noopener">GitHub
+              <svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg>
+            </a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 · AI 学习之路</span>
+        <span class="host-note">托管于 GitHub Pages · 纯静态网站</span>
+      </div>
+    </div>
   </footer>
 
+  <script src="js/main.js"></script>
 </body>
 </html>
