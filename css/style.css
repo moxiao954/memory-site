@@ -75,8 +75,6 @@ body {
     linear-gradient(160deg, var(--bg-start) 0%, var(--bg-end) 55%, var(--bg-deep) 100%),
     radial-gradient(ellipse 720px 420px at 14% 8%, rgba(168, 85, 247, 0.07), transparent 70%),
     radial-gradient(ellipse 820px 460px at 86% 20%, rgba(0, 229, 255, 0.07), transparent 70%),
-    linear-gradient(rgba(148, 177, 217, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(148, 177, 217, 0.035) 1px, transparent 1px),
     radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.12) 0.8px, transparent 1.2px),
     radial-gradient(circle at 72% 58%, rgba(0, 229, 255, 0.16) 1px, transparent 1.4px),
     radial-gradient(circle at 36% 82%, rgba(168, 85, 247, 0.14) 1px, transparent 1.4px),
@@ -85,15 +83,11 @@ body {
     100% 100%,
     70% 80%,
     75% 85%,
-    100% 52px,
-    52px 100%,
     160px 160px,
     240px 240px,
     190px 190px,
     300px 300px;
   background-position:
-    0 0,
-    0 0,
     0 0,
     0 0,
     0 0,
@@ -106,6 +100,7 @@ body {
   line-height: 1.7;
   overflow-x: hidden;
 }
+body.no-scroll { overflow: hidden; }
 
 /* ============================================================
    [1] 背景系统：ambient-glow 光斑（fixed，z-index:0）
@@ -142,6 +137,19 @@ body {
   opacity: 0.5;
   will-change: transform, opacity;
 }
+.particle-bright {
+  box-shadow: 0 0 7px rgba(0, 229, 255, 0.55), 0 0 16px rgba(168, 85, 247, 0.28);
+}
+@keyframes particle-twinkle {
+  0%, 100% {
+    opacity: 0.35;
+    box-shadow: 0 0 2px rgba(0, 229, 255, 0.12);
+  }
+  50% {
+    opacity: 0.95;
+    box-shadow: 0 0 8px rgba(0, 229, 255, 0.65), 0 0 18px rgba(168, 85, 247, 0.3);
+  }
+}
 @keyframes particle-float {
   0%   { transform: translate3d(var(--push-x, 0px), calc(var(--push-y, 0px) + 0vh), 0); }
   25%  { transform: translate3d(calc(var(--push-x, 0px) + 18px), calc(var(--push-y, 0px) - 26vh), 0); }
@@ -149,6 +157,23 @@ body {
   75%  { transform: translate3d(calc(var(--push-x, 0px) + 20px), calc(var(--push-y, 0px) - 78vh), 0); }
   100% { transform: translate3d(var(--push-x, 0px), calc(var(--push-y, 0px) - 104vh), 0); }
 }
+
+/* 鼠标跟随网格：默认隐藏，光标附近淡入 */
+#cursor-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    linear-gradient(rgba(0, 229, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 85, 247, 0.055) 1px, transparent 1px);
+  background-size: 52px 52px, 52px 52px;
+  -webkit-mask-image: radial-gradient(circle 280px at var(--cx, 50%) var(--cy, 50%), black 16%, transparent 72%);
+  mask-image: radial-gradient(circle 280px at var(--cx, 50%) var(--cy, 50%), black 16%, transparent 72%);
+  transition: opacity 0.35s ease;
+}
+#cursor-grid.is-active { opacity: 1; }
 
 /* ============================================================
    [3] 微光粒子 / [4] 光标与磁性
@@ -778,7 +803,7 @@ body {
 }
 
 /* ============================================================
-   [时间线] 轨迹页 & 首页概览共用（V3 现代极简）
+   [时间线] 学习日记页 & 首页概览共用（V3 现代极简）
    ============================================================ */
 .timeline {
   position: relative;
@@ -957,6 +982,48 @@ body {
   margin-bottom: 10px;
 }
 .tl-empty p { font-size: 14px; color: var(--text-secondary); }
+
+/* 时间线卡片点击放大遮罩 */
+.tl-expand-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(4, 7, 13, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.tl-expand-card {
+  position: fixed;
+  width: 320px;
+  max-height: calc(100vh - 110px);
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(13, 22, 40, 0.92));
+  border: 1px solid var(--glass-border-active);
+  border-radius: var(--radius-lg);
+  padding: 26px 28px;
+  box-shadow: var(--glow-cyan), 0 18px 60px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: scale(0.88);
+  transition:
+    left 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    top 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.25s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tl-expand-card.is-open { transform: none; }
+.tl-expand-card .tl-title {
+  margin: 10px 0 8px;
+  font-size: 20px;
+}
+.tl-expand-card .tl-desc {
+  display: block;
+  overflow: visible;
+  font-size: 14px;
+  line-height: 1.7;
+  -webkit-line-clamp: initial;
+}
+.tl-expand-card .tl-link { margin-top: 14px; }
 
 /* ============================================================
    [关于我] 非对称双栏
@@ -1183,7 +1250,7 @@ body {
 }
 
 /* ============================================================
-   [CTA 区] 轨迹页底部
+   [CTA 区] 学习日记页底部
    ============================================================ */
 .cta-section {
   text-align: center;

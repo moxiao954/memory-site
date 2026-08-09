@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * 学习轨迹 · 数据与全局动效脚本（js/main.js）
+ * 学习日记 · 数据与全局动效脚本（js/main.js）
  * 规范来源：ui设计_现代赛博版_v3.txt
  * ============================================================
  * 【如何添加新记录】
@@ -36,6 +36,12 @@ var timelineData = [
     time: "2026.08",
     title: "搭建个人网站并上传到 GitHub",
     desc: "使用 Claude Code + DeepSeek 从零搭建了现代赛博风格的个人学习分享网站，发布到 GitHub Pages（GitHub Pages）免费托管，正式上线。",
+    link: "https://moxiao954.github.io/memory-site/"
+  },
+  {
+    time: "2026.08",
+    title: "使用 Codex 大幅调整 UI",
+    desc: "通过 Codex 把网站升级为深空星图风格，优化卡片点击放大、背景星星与鼠标网格交互，并同步到 GitHub。",
     link: "https://moxiao954.github.io/memory-site/"
   }
 ];
@@ -150,26 +156,32 @@ function initParticles() {
     "rgba(168,85,247,",  // 紫
     "rgba(255,255,255,"  // 白
   ];
-  var count = 18 + Math.floor(Math.random() * 7);  // 18-24
+  var count = 40 + Math.floor(Math.random() * 11); // 40-50
 
   for (var i = 0; i < count; i++) {
     var p = document.createElement("div");
     p.className = "particle";
-    var size = 1 + Math.floor(Math.random() * 3);        // 1-3px
+    var isBright = Math.random() < 0.2;                  // 约 20% 亮星
+    var size = isBright
+      ? 3 + Math.floor(Math.random() * 2)                // 3-4px
+      : 1 + Math.floor(Math.random() * 3);               // 1-3px
     var color = colors[Math.floor(Math.random() * colors.length)];
-    var opacity = (0.25 + Math.random() * 0.3).toFixed(2);
+    var opacity = (0.3 + Math.random() * 0.35).toFixed(2);
     var left = Math.random() * 100;                      // 百分比，保证随视口缩放
     var dur = 12 + Math.random() * 8;                    // 12-20s
     var delay = -Math.random() * 20;                     // 负延迟：画面一开始就分布满屏
+    var twinkleDur = (isBright ? 1.8 + Math.random() * 1.4 : 2.8 + Math.random() * 2.2);
     p.style.width = p.style.height = size + "px";
     p.style.background = color + opacity + ")";
     p.style.opacity = "1";
     p.style.left = left + "%";
     p.style.top = (Math.random() * 100) + "%";
+    if (isBright) p.className = "particle particle-bright";
     p.style.setProperty("--push-x", "0px");
     p.style.setProperty("--push-y", "0px");
     p.style.animation =
-      "particle-float " + dur.toFixed(1) + "s linear " + delay.toFixed(1) + "s infinite";
+      "particle-float " + dur.toFixed(1) + "s linear " + delay.toFixed(1) + "s infinite, " +
+      "particle-twinkle " + twinkleDur.toFixed(1) + "s ease-in-out " + (-Math.random() * twinkleDur).toFixed(1) + "s infinite";
     layer.appendChild(p);
   }
 
@@ -296,6 +308,111 @@ function initNavScroll() {
 
 /**
  * ============================================================
+ * 鼠标网格：默认隐藏，光标附近网格淡入
+ * ============================================================ */
+function initCursorGrid() {
+  var layer = document.createElement("div");
+  layer.id = "cursor-grid";
+  layer.setAttribute("aria-hidden", "true");
+  document.body.appendChild(layer);
+
+  var rafPending = false;
+  window.addEventListener("mousemove", function (e) {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(function () {
+      rafPending = false;
+      layer.style.setProperty("--cx", e.clientX + "px");
+      layer.style.setProperty("--cy", e.clientY + "px");
+      layer.classList.add("is-active");
+    });
+  }, { passive: true });
+
+  document.addEventListener("mouseleave", function () {
+    layer.classList.remove("is-active");
+  });
+}
+
+/**
+ * ============================================================
+ * 时间线卡片点击放大：从原位置放大到遮罩层，完整显示内容
+ * ============================================================ */
+function openTimelineCard(card) {
+  if (document.querySelector(".tl-expand-overlay")) return;
+  var origin = card.getBoundingClientRect();
+  var body = document.body;
+
+  var overlay = document.createElement("div");
+  overlay.className = "tl-expand-overlay";
+  body.appendChild(overlay);
+  body.classList.add("no-scroll");
+
+  var expanded = document.createElement("div");
+  expanded.className = "tl-expand-card";
+  expanded.innerHTML = card.innerHTML;
+  overlay.appendChild(expanded);
+
+  var targetW = Math.min(760, window.innerWidth - 96);
+  expanded.style.width = origin.width + "px";
+  expanded.style.left = origin.left + "px";
+  expanded.style.top = origin.top + "px";
+  expanded.style.opacity = "0";
+
+  requestAnimationFrame(function () {
+    expanded.style.width = targetW + "px";
+    var height = expanded.getBoundingClientRect().height;
+    var maxH = window.innerHeight - 110;
+    var targetH = Math.min(height, maxH);
+    var left = Math.max(24, Math.round((window.innerWidth - targetW) / 2));
+    var top = Math.max(24, Math.round((window.innerHeight - targetH) / 2));
+
+    if (height > maxH) {
+      expanded.style.maxHeight = maxH + "px";
+      expanded.style.overflowY = "auto";
+    }
+    expanded.style.left = left + "px";
+    expanded.style.top = top + "px";
+    expanded.style.opacity = "1";
+    expanded.classList.add("is-open");
+  });
+
+  function close() {
+    expanded.style.left = origin.left + "px";
+    expanded.style.top = origin.top + "px";
+    expanded.style.width = origin.width + "px";
+    expanded.style.opacity = "0";
+    expanded.classList.remove("is-open");
+    body.classList.remove("no-scroll");
+    setTimeout(function () {
+      overlay.remove();
+    }, 360);
+  }
+
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay) close();
+  });
+  expanded.addEventListener("click", function (e) {
+    if (e.target.closest("a")) return;
+    close();
+  });
+  document.addEventListener("keydown", function onKey(e) {
+    if (e.key === "Escape") {
+      document.removeEventListener("keydown", onKey);
+      close();
+    }
+  });
+}
+
+function initTimelineExpand() {
+  document.addEventListener("click", function (e) {
+    var card = e.target.closest(".tl-card");
+    if (!card || e.target.closest("a")) return;
+    openTimelineCard(card);
+  });
+}
+
+/**
+ * ============================================================
  * 滚动入场：模块进入视口时一次性渐显
  * ============================================================ */
 function initScrollReveal() {
@@ -343,4 +460,6 @@ document.addEventListener("DOMContentLoaded", function () {
   initMagnetic();
   initNavScroll();
   initScrollReveal();
+  initCursorGrid();
+  initTimelineExpand();
 });
