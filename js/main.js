@@ -352,7 +352,7 @@ function openTimelineCard(card) {
   expanded.innerHTML = card.innerHTML;
   overlay.appendChild(expanded);
 
-  var targetW = Math.min(760, window.innerWidth - 96);
+  var targetW = Math.min(560, window.innerWidth - 48);
   expanded.style.width = origin.width + "px";
   expanded.style.left = origin.left + "px";
   expanded.style.top = origin.top + "px";
@@ -363,8 +363,15 @@ function openTimelineCard(card) {
     var height = expanded.getBoundingClientRect().height;
     var maxH = window.innerHeight - 110;
     var targetH = Math.min(height, maxH);
-    var left = Math.max(24, Math.round((window.innerWidth - targetW) / 2));
-    var top = Math.max(24, Math.round((window.innerHeight - targetH) / 2));
+    var left = origin.left;
+    var top = origin.top;
+
+    if (left + targetW > window.innerWidth - 24) {
+      left = Math.max(24, window.innerWidth - targetW - 24);
+    }
+    if (top + targetH > window.innerHeight - 24) {
+      top = Math.max(24, window.innerHeight - targetH - 24);
+    }
 
     if (height > maxH) {
       expanded.style.maxHeight = maxH + "px";

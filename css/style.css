@@ -732,12 +732,10 @@ body.no-scroll { overflow: hidden; }
   inset: -30px 0 -10px;
   pointer-events: none;
   background:
-    linear-gradient(rgba(0, 229, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(168, 85, 247, 0.045) 1px, transparent 1px);
-  background-size: 44px 44px;
-  -webkit-mask-image: radial-gradient(ellipse at 72% 18%, black, transparent 72%);
-  mask-image: radial-gradient(ellipse at 72% 18%, black, transparent 72%);
-  opacity: 0.65;
+    radial-gradient(ellipse 620px 420px at 76% 18%, rgba(0, 229, 255, 0.07), transparent 68%),
+    radial-gradient(ellipse 460px 340px at 14% 82%, rgba(168, 85, 247, 0.06), transparent 68%);
+  background-size: 100% 100%, 100% 100%;
+  opacity: 0.7;
 }
 .hero-title {
   font-size: 36px;
@@ -1137,7 +1135,7 @@ body.no-scroll { overflow: hidden; }
     linear-gradient(90deg, rgba(168, 85, 247, 0.06) 1px, transparent 1px),
     radial-gradient(circle at 50% 32%, rgba(0, 229, 255, 0.16), transparent 62%),
     linear-gradient(135deg, rgba(0, 229, 255, 0.12), rgba(168, 85, 247, 0.16));
-  background-size: 26px 26px, 26px 26px, 100% 100%, 100% 100%;
+  background-size: 52px 52px, 52px 52px, 100% 100%, 100% 100%;
   display: flex;
   align-items: center;
   justify-content: center;
