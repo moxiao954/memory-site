@@ -144,35 +144,38 @@ function renderTimeline(container, options) {
 function initParticles() {
   var layer = document.getElementById("particles");
   if (!layer) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   var colors = [
     "rgba(0,229,255,",   // 青
     "rgba(168,85,247,",  // 紫
     "rgba(255,255,255,"  // 白
   ];
-  var count = 30 + Math.floor(Math.random() * 11); // 30-40
-  var layerW = layer.clientWidth || window.innerWidth;
+  var count = 18 + Math.floor(Math.random() * 7);  // 18-24
 
   for (var i = 0; i < count; i++) {
     var p = document.createElement("div");
     p.className = "particle";
-    var size = 2 + Math.floor(Math.random() * 3);        // 2-4px
+    var size = 1 + Math.floor(Math.random() * 3);        // 1-3px
     var color = colors[Math.floor(Math.random() * colors.length)];
-    var opacity = (0.3 + Math.random() * 0.5).toFixed(2);
+    var opacity = (0.25 + Math.random() * 0.3).toFixed(2);
     var left = Math.random() * 100;                      // 百分比，保证随视口缩放
     var dur = 12 + Math.random() * 8;                    // 12-20s
     var delay = -Math.random() * 20;                     // 负延迟：画面一开始就分布满屏
     p.style.width = p.style.height = size + "px";
     p.style.background = color + opacity + ")";
+    p.style.opacity = "1";
     p.style.left = left + "%";
     p.style.top = (Math.random() * 100) + "%";
+    p.style.setProperty("--push-x", "0px");
+    p.style.setProperty("--push-y", "0px");
     p.style.animation =
       "particle-float " + dur.toFixed(1) + "s linear " + delay.toFixed(1) + "s infinite";
-    p.dataset.cx = (left / 100) * layerW;
     layer.appendChild(p);
   }
 
   // 鼠标移动：粒子轻微排斥
   var particles = Array.prototype.slice.call(layer.children);
+  var repelRadius = 90;
   var rafPending = false;
   window.addEventListener("mousemove", function (e) {
     if (rafPending) return;
@@ -187,11 +190,13 @@ function initParticles() {
         var py = rect.top + rect.height / 2;
         var dx = px - mx, dy = py - my;
         var dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 120 && dist > 0) {
-          var force = (120 - dist) / 120;                 // 越近推力越大
-          el.style.transform = "translate(" + (dx / dist) * force * 14 + "px," + (dy / dist) * force * 14 + "px)";
+        if (dist < repelRadius && dist > 0) {
+          var force = (repelRadius - dist) / repelRadius; // 越近推力越大
+          el.style.setProperty("--push-x", ((dx / dist) * force * 12).toFixed(2) + "px");
+          el.style.setProperty("--push-y", ((dy / dist) * force * 12).toFixed(2) + "px");
         } else {
-          el.style.transform = "";
+          el.style.setProperty("--push-x", "0px");
+          el.style.setProperty("--push-y", "0px");
         }
       }
     });
@@ -264,12 +269,56 @@ function initMagnetic() {
         var r = el.getBoundingClientRect();
         var dx = e.clientX - (r.left + r.width / 2);
         var dy = e.clientY - (r.top + r.height / 2);
-        el.style.transform = "translate(" + dx * 0.12 + "px," + dy * 0.12 + "px)";
+        el.style.setProperty("--mx", (dx * 0.1).toFixed(2) + "px");
+        el.style.setProperty("--my", (dy * 0.1).toFixed(2) + "px");
       });
       el.addEventListener("mouseleave", function () {
-        el.style.transform = "";
+        el.style.setProperty("--mx", "0px");
+        el.style.setProperty("--my", "0px");
       });
     })(items[i]);
+  }
+}
+
+/**
+ * ============================================================
+ * 导航滚动状态：滚动后加深导航背景
+ * ============================================================ */
+function initNavScroll() {
+  var nav = document.querySelector(".site-nav");
+  if (!nav) return;
+  function update() {
+    nav.classList.toggle("is-scrolled", window.scrollY > 8);
+  }
+  update();
+  window.addEventListener("scroll", update, { passive: true });
+}
+
+/**
+ * ============================================================
+ * 滚动入场：模块进入视口时一次性渐显
+ * ============================================================ */
+function initScrollReveal() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!("IntersectionObserver" in window)) return;
+
+  var targets = document.querySelectorAll(
+    ".timeline, .projects-grid, .about-left, .about-right"
+  );
+  if (!targets.length) return;
+
+  var observer = new IntersectionObserver(function (entries) {
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].isIntersecting) {
+        entries[i].target.classList.add("is-visible");
+        observer.unobserve(entries[i].target);
+      }
+    }
+  }, { threshold: 0.08, rootMargin: "0px 0px -40px 0px" });
+
+  for (var k = 0; k < targets.length; k++) {
+    targets[k].classList.add("reveal");
+    observer.observe(targets[k]);
   }
 }
 
@@ -292,4 +341,6 @@ document.addEventListener("DOMContentLoaded", function () {
   initParticles();
   initCounters();
   initMagnetic();
+  initNavScroll();
+  initScrollReveal();
 });
