@@ -6,7 +6,9 @@
 
 ## 🌐 立即访问
 
-**https://moxiao954.github.io/memory-site/**
+**https://memory-site-903.netlify.app/**
+
+备用地址（GitHub Pages）：**https://moxiao954.github.io/memory-site/**
 
 ## ✨ 亮点
 
@@ -29,12 +31,14 @@
 
 - **纯静态**：HTML + CSS + 原生 JavaScript
 - **零框架 · 零构建 · 零后端**
+- **托管**：Netlify 主站 + GitHub 代码仓库
 - 全站样式统一管理（`css/style.css`，颜色集中在 `:root` 变量）
 
 ## 📁 目录结构
 
 ```
 memory-site/
+├── AGENTS.md        # AI 项目提示词
 ├── index.html        # 首页
 ├── about.html        # 关于我
 ├── projects.html     # 项目作品集
@@ -42,7 +46,9 @@ memory-site/
 ├── blog.html         # 博客
 ├── css/style.css     # 全站样式（赛博风格）
 ├── js/main.js        # 时间线数据与动效
-└── images/           # 图片资源
+├── images/           # 图片资源
+├── fonts/            # 本地字体
+└── docs/             # 操作手册与变更记录
 ```
 
 ## 🔒 权限说明

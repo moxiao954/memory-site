@@ -7,7 +7,7 @@
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="page-diary">
 
   <div class="ambient-glow"></div>
   <div id="particles"></div>
@@ -29,24 +29,34 @@
   <main class="page-main">
 
     <!-- 页面头部 -->
-    <section class="page-header">
-      <div class="page-kicker">DIARY</div>
-      <h1 class="page-title">学习日记</h1>
-      <p>一条从零开始的 AI 学习路线。节点按时间从左到右排列（最早在左、最近在右），加载时会依次点亮，引导你按顺序浏览。</p>
+    <section class="zone zone-header">
+      <div class="zone-inner">
+        <div class="page-header">
+          <div class="page-kicker hud-kicker" data-label="DIARY">DIARY</div>
+          <h1 class="page-title glitch-title" data-text="学习日记">学习日记</h1>
+          <p>一条从零开始的 AI 学习路线。节点按时间从左到右排列（最早在左、最近在右），加载时会依次点亮，引导你按顺序浏览。</p>
+        </div>
+      </div>
     </section>
 
     <!-- 横向时间线：内容由 js/main.js 自动生成 -->
-    <section>
-      <div id="full-timeline"></div>
+    <section class="zone zone-band">
+      <div class="zone-inner">
+        <div id="full-timeline"></div>
+      </div>
     </section>
 
     <!-- CTA 区 -->
-    <section class="cta-section">
-      <h2>继续探索更多内容</h2>
-      <p>看看我做过什么，或者读一读我踩过的坑。</p>
-      <div class="btn-row">
-        <a class="btn-outline" href="projects.html">查看项目</a>
-        <a class="btn-gradient" href="blog.html">阅读博客</a>
+    <section class="zone zone-band-alt">
+      <div class="zone-inner">
+        <div class="cta-section glass-lg">
+          <h2>继续探索更多内容</h2>
+          <p>看看我做过什么，或者读一读我踩过的坑。</p>
+          <div class="btn-row">
+            <a class="btn-outline" href="projects.html">查看项目</a>
+            <a class="btn-gradient" href="blog.html">阅读博客</a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -81,7 +91,7 @@
       </div>
       <div class="footer-bottom">
         <span>© 2026 · AI 学习之路</span>
-        <span class="host-note">托管于 GitHub Pages · 纯静态网站</span>
+        <span class="host-note">托管于 Netlify · 纯静态网站</span>
       </div>
     </div>
   </footer>

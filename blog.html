@@ -7,7 +7,7 @@
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="page-blog">
 
   <div class="ambient-glow"></div>
   <div id="particles"></div>
@@ -29,25 +29,33 @@
   <main class="page-main">
 
     <!-- 页面头部 -->
-    <section class="page-header">
-      <div class="page-kicker">ARTICLES</div>
-      <h1 class="page-title">博客</h1>
-      <p>学习笔记、踩坑记录与技术分享。第一篇还在路上。</p>
+    <section class="zone zone-header">
+      <div class="zone-inner">
+        <div class="page-header">
+          <div class="page-kicker hud-kicker" data-label="ARTICLES">ARTICLES</div>
+          <h1 class="page-title glitch-title" data-text="博客">博客</h1>
+          <p>学习笔记、踩坑记录与技术分享。第一篇还在路上。</p>
+        </div>
+      </div>
     </section>
 
     <!-- 空状态 -->
-    <section class="blog-empty">
-      <div class="blog-empty-icon">📄</div>
-      <div class="blog-empty-title">暂无文章</div>
-      <p>博客内容正在筹备中，敬请期待。</p>
-      <a class="btn-outline" href="index.html">去首页看看</a>
-    </section>
+    <section class="zone zone-band">
+      <div class="zone-inner">
+        <div class="blog-empty">
+          <div class="blog-empty-icon">📄</div>
+          <div class="blog-empty-title">暂无文章</div>
+          <p>博客内容正在筹备中，敬请期待。</p>
+          <a class="btn-outline" href="index.html">去首页看看</a>
+        </div>
 
-    <!-- 未来内容骨架（暗示后续文章） -->
-    <section class="article-skeletons" aria-hidden="true">
-      <div class="article-skeleton"></div>
-      <div class="article-skeleton"></div>
-      <div class="article-skeleton"></div>
+        <!-- 未来内容骨架（暗示后续文章） -->
+        <div class="article-skeletons" aria-hidden="true">
+          <div class="article-skeleton"></div>
+          <div class="article-skeleton"></div>
+          <div class="article-skeleton"></div>
+        </div>
+      </div>
     </section>
 
   </main>
@@ -81,7 +89,7 @@
       </div>
       <div class="footer-bottom">
         <span>© 2026 · AI 学习之路</span>
-        <span class="host-note">托管于 GitHub Pages · 纯静态网站</span>
+        <span class="host-note">托管于 Netlify · 纯静态网站</span>
       </div>
     </div>
   </footer>

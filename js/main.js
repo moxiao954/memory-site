@@ -116,7 +116,7 @@ function renderTimeline(container, options) {
     html +=
       '<div class="tl-node tl-node-' + pos + (isCurrent ? ' tl-node-current' : '') + '">' +
         '<div class="tl-dot"></div>' +
-        '<div class="tl-card">' +
+        '<div class="tl-card glass-md">' +
           '<div class="tl-time">' +
             escapeHtml(it.time) +
             (isCurrent ? '<span class="badge badge-green">最新</span>' : '') +
@@ -144,24 +144,20 @@ function renderTimeline(container, options) {
 /**
  * ============================================================
  * 微光粒子系统（V3 现代版）
- * 页面加载时生成 30-40 个青/紫/白粒子，缓慢上升 + 左右摆动
+ * 页面加载时生成 20-26 个白色粒子，缓慢上升 + 左右摆动
  * 鼠标移动时轻微排斥
  * ============================================================ */
 function initParticles() {
   var layer = document.getElementById("particles");
   if (!layer) return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  var colors = [
-    "rgba(0,229,255,",   // 青
-    "rgba(168,85,247,",  // 紫
-    "rgba(255,255,255,"  // 白
-  ];
-  var count = 40 + Math.floor(Math.random() * 11); // 40-50
+  var colors = ["rgba(255,255,255,"];                  // 白
+  var count = 20 + Math.floor(Math.random() * 7); // 20-26
 
   for (var i = 0; i < count; i++) {
     var p = document.createElement("div");
     p.className = "particle";
-    var isBright = Math.random() < 0.2;                  // 约 20% 亮星
+    var isBright = Math.random() < 0.12;                 // 约 12% 亮星
     var size = isBright
       ? 3 + Math.floor(Math.random() * 2)                // 3-4px
       : 1 + Math.floor(Math.random() * 3);               // 1-3px
@@ -308,33 +304,6 @@ function initNavScroll() {
 
 /**
  * ============================================================
- * 鼠标网格：默认隐藏，光标附近网格淡入
- * ============================================================ */
-function initCursorGrid() {
-  var layer = document.createElement("div");
-  layer.id = "cursor-grid";
-  layer.setAttribute("aria-hidden", "true");
-  document.body.appendChild(layer);
-
-  var rafPending = false;
-  window.addEventListener("mousemove", function (e) {
-    if (rafPending) return;
-    rafPending = true;
-    requestAnimationFrame(function () {
-      rafPending = false;
-      layer.style.setProperty("--cx", e.clientX + "px");
-      layer.style.setProperty("--cy", e.clientY + "px");
-      layer.classList.add("is-active");
-    });
-  }, { passive: true });
-
-  document.addEventListener("mouseleave", function () {
-    layer.classList.remove("is-active");
-  });
-}
-
-/**
- * ============================================================
  * 时间线卡片点击放大：从原位置放大到遮罩层，完整显示内容
  * ============================================================ */
 function openTimelineCard(card) {
@@ -348,7 +317,7 @@ function openTimelineCard(card) {
   body.classList.add("no-scroll");
 
   var expanded = document.createElement("div");
-  expanded.className = "tl-expand-card";
+  expanded.className = "tl-expand-card glass-lg";
   expanded.innerHTML = card.innerHTML;
   overlay.appendChild(expanded);
 
@@ -459,6 +428,25 @@ function initPageReveal() {
   }
 }
 
+/**
+ * ============================================================
+ * 玻璃高光跟随鼠标：维护 --gx / --gy
+ * ============================================================ */
+function initGlassSheen() {
+  var cards = document.querySelectorAll(".glass-md, .glass-lg");
+  for (var i = 0; i < cards.length; i++) {
+    (function (el) {
+      el.addEventListener("mousemove", function (e) {
+        var r = el.getBoundingClientRect();
+        var x = e.clientX - r.left;
+        var y = e.clientY - r.top;
+        el.style.setProperty("--gx", (x / r.width * 100).toFixed(1) + "%");
+        el.style.setProperty("--gy", (y / r.height * 100).toFixed(1) + "%");
+      });
+    })(cards[i]);
+  }
+}
+
 /* ---- 页面加载完成后统一启动 ---- */
 document.addEventListener("DOMContentLoaded", function () {
   initPageReveal();
@@ -467,6 +455,6 @@ document.addEventListener("DOMContentLoaded", function () {
   initMagnetic();
   initNavScroll();
   initScrollReveal();
-  initCursorGrid();
+  initGlassSheen();
   initTimelineExpand();
 });

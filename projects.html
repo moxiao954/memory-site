@@ -7,7 +7,7 @@
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="page-projects">
 
   <div class="ambient-glow"></div>
   <div id="particles"></div>
@@ -29,40 +29,48 @@
   <main class="page-main">
 
     <!-- 页面头部 -->
-    <section class="page-header">
-      <div class="page-kicker">WORKS</div>
-      <h1 class="page-title">项目</h1>
-      <p>我在学习过程中完成的小项目。目前第一个项目还在规划中，敬请期待。</p>
+    <section class="zone zone-header">
+      <div class="zone-inner">
+        <div class="page-header">
+          <div class="page-kicker hud-kicker" data-label="WORKS">WORKS</div>
+          <h1 class="page-title glitch-title" data-text="项目">项目</h1>
+          <p>我在学习过程中完成的小项目。目前第一个项目还在规划中，敬请期待。</p>
+        </div>
+      </div>
     </section>
 
     <!-- 筛选栏（视觉装饰，功能后续实装） -->
-    <div class="filter-bar">
-      <button class="btn-glass filter-btn active" type="button">全部</button>
-      <button class="btn-glass filter-btn" type="button">AI</button>
-      <button class="btn-glass filter-btn" type="button">Web</button>
-      <button class="btn-glass filter-btn" type="button">工具</button>
-    </div>
+    <section class="zone zone-band">
+      <div class="zone-inner">
+        <div class="filter-bar">
+          <button class="btn-glass filter-btn active" type="button">全部</button>
+          <button class="btn-glass filter-btn" type="button">AI</button>
+          <button class="btn-glass filter-btn" type="button">Web</button>
+          <button class="btn-glass filter-btn" type="button">工具</button>
+        </div>
 
-    <!-- 项目卡片 -->
-    <section class="projects-grid">
-      <div class="card project-card">
-        <div class="project-cover"><span class="initial">AI</span></div>
-        <div class="project-body">
-          <h3>第一个项目 <span class="badge badge-cyan">开发中</span></h3>
-          <p>这里将展示我的第一个学习项目：项目名、一句话简介和当前进度。</p>
-          <div class="project-meta">
-            <span class="tech">Python · AI</span>
-            <span>2026</span>
+        <!-- 项目卡片 -->
+        <div class="projects-grid">
+          <div class="card glass-md project-card">
+            <div class="project-cover"><span class="initial">AI</span></div>
+            <div class="project-body">
+              <h3>第一个项目 <span class="badge badge-cyan">开发中</span></h3>
+              <p>这里将展示我的第一个学习项目：项目名、一句话简介和当前进度。</p>
+              <div class="project-meta">
+                <span class="tech">Python · AI</span>
+                <span>2026</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-placeholder">
+            <div class="plus">+</div>
+            <span>添加项目</span>
+          </div>
+          <div class="card-placeholder">
+            <div class="plus">+</div>
+            <span>添加项目</span>
           </div>
         </div>
-      </div>
-      <div class="card-placeholder">
-        <div class="plus">+</div>
-        <span>添加项目</span>
-      </div>
-      <div class="card-placeholder">
-        <div class="plus">+</div>
-        <span>添加项目</span>
       </div>
     </section>
 
@@ -97,7 +105,7 @@
       </div>
       <div class="footer-bottom">
         <span>© 2026 · AI 学习之路</span>
-        <span class="host-note">托管于 GitHub Pages · 纯静态网站</span>
+        <span class="host-note">托管于 Netlify · 纯静态网站</span>
       </div>
     </div>
   </footer>

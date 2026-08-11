@@ -7,7 +7,7 @@
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="page-index">
 
   <div class="ambient-glow"></div>
   <div id="particles"></div>
@@ -29,71 +29,79 @@
   <main class="page-main">
 
     <!-- Hero 区（现代仪表盘风格） -->
-    <section class="hero">
-      <h1 class="hero-title">
-        你好，我是
-        <span class="line-2 text-gradient">一个正在学 AI 的学生</span>
-      </h1>
-      <p class="hero-sub">这里记录了我从零开始学习人工智能（AI）的每一步：学了什么、踩了什么坑、做出了什么。我的目标是——用 AI 做出有用、有趣的项目。欢迎同路人一起借鉴交流。</p>
-      <div class="btn-row">
-        <a class="btn-gradient magnetic" href="diary.html">查看学习日记</a>
-        <a class="btn-outline" href="about.html">关于我</a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <div class="stat-num text-gradient" data-count="0" data-auto-days>0</div>
-          <div class="stat-label">学习天数</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num text-gradient" data-count="0">0</div>
-          <div class="stat-label">项目</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num text-gradient" data-count="0">0</div>
-          <div class="stat-label">文章</div>
+    <section class="zone zone-header">
+      <div class="zone-inner">
+        <div class="hero">
+          <h1 class="hero-title glitch-title" data-text="你好，我是 一个正在学 AI 的学生">
+            你好，我是
+            <span class="line-2 text-gradient">一个正在学 AI 的学生</span>
+          </h1>
+          <p class="hero-sub">这里记录了我从零开始学习人工智能（AI）的每一步：学了什么、踩了什么坑、做出了什么。我的目标是——用 AI 做出有用、有趣的项目。欢迎同路人一起借鉴交流。</p>
+          <div class="btn-row">
+            <a class="btn-gradient magnetic" href="diary.html">查看学习日记</a>
+            <a class="btn-outline" href="about.html">关于我</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-item">
+              <div class="stat-num text-gradient" data-count="0" data-auto-days>0</div>
+              <div class="stat-label">学习天数</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num text-gradient" data-count="0">0</div>
+              <div class="stat-label">项目</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num text-gradient" data-count="0">0</div>
+              <div class="stat-label">文章</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- 学习日记概览（简版时间线） -->
-    <section class="section">
-      <div class="section-row">
-        <div class="section-head">
-          <div class="section-kicker">DIARY</div>
-          <h2 class="section-title">学习日记</h2>
+    <section class="zone zone-band">
+      <div class="zone-inner">
+        <div class="section-row">
+          <div class="section-head">
+            <div class="section-kicker hud-kicker" data-label="DIARY">DIARY</div>
+            <h2 class="section-title glitch-title glitch-hover" data-text="学习日记">学习日记</h2>
+          </div>
+          <a class="btn-outline" href="diary.html">查看全部</a>
         </div>
-        <a class="btn-outline" href="diary.html">查看全部</a>
+        <div class="divider-glow"></div>
+        <div id="home-timeline"></div>
       </div>
-      <div class="divider-glow"></div>
-      <div id="home-timeline"></div>
     </section>
 
     <!-- 精选项目 -->
-    <section class="section">
-      <div class="section-head">
-        <div class="section-kicker">PROJECTS</div>
-        <h2 class="section-title">精选项目</h2>
-      </div>
-      <div class="divider-glow"></div>
-      <div class="projects-grid">
-        <div class="card project-card">
-          <div class="project-body">
-            <span class="badge badge-cyan">开发中</span>
-            <h3>第一个项目 · 敬请期待</h3>
-            <p>我的第一个学习项目正在规划中。完成之后会第一时间展示在这里。</p>
-            <div class="project-meta">
-              <span class="tech">Python · AI</span>
-              <span>2026</span>
+    <section class="zone zone-band-alt">
+      <div class="zone-inner">
+        <div class="section-head">
+          <div class="section-kicker hud-kicker" data-label="PROJECTS">PROJECTS</div>
+          <h2 class="section-title glitch-title glitch-hover" data-text="精选项目">精选项目</h2>
+        </div>
+        <div class="divider-glow"></div>
+        <div class="projects-grid">
+          <div class="card glass-md project-card">
+            <div class="project-body">
+              <span class="badge badge-cyan">开发中</span>
+              <h3>第一个项目 · 敬请期待</h3>
+              <p>我的第一个学习项目正在规划中。完成之后会第一时间展示在这里。</p>
+              <div class="project-meta">
+                <span class="tech">Python · AI</span>
+                <span>2026</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="card-placeholder">
-          <div class="plus">+</div>
-          <span>添加项目</span>
-        </div>
-        <div class="card-placeholder">
-          <div class="plus">+</div>
-          <span>添加项目</span>
+          <div class="card-placeholder">
+            <div class="plus">+</div>
+            <span>添加项目</span>
+          </div>
+          <div class="card-placeholder">
+            <div class="plus">+</div>
+            <span>添加项目</span>
+          </div>
         </div>
       </div>
     </section>
@@ -129,7 +137,7 @@
       </div>
       <div class="footer-bottom">
         <span>© 2026 · AI 学习之路</span>
-        <span class="host-note">托管于 GitHub Pages · 纯静态网站</span>
+        <span class="host-note">托管于 Netlify · 纯静态网站</span>
       </div>
     </div>
   </footer>
