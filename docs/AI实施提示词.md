@@ -13,7 +13,7 @@
 ## 必须步骤
 
 1. 读取 docs/UI视觉升级需求文档.md 和 AGENTS.md。
-2. 读取 css/style.css、index.html、about.html、projects.html、diary.html、blog.html、js/main.js。
+2. 读取 css/style.css、index.html、about.html、projects.html、diary.html、js/main.js。
 3. 下载得意黑 `SmileySans-Oblique.ttf.woff2` 到 fonts/，保留 SIL OFL-1.1 许可说明。
 4. 按需求文档实施：
    - 深色底 + 暖色单高光设计令牌。
@@ -26,7 +26,7 @@
    - 日记滑条增加显眼轨道、滑块、左右箭头和进度同步。
    - 时间线放大改为 FLIP/transform 连贯动画。
    - 删除 `.glitch-title`、`data-text`、故障 keyframes 与相关 HTML/CSS/JS。
-5. 本地运行 python -m http.server 8000，用桌面宽度 1200px 和 1440px 验证 5 个页面。
+5. 本地运行 python -m http.server 8000，用桌面宽度 1200px 和 1440px 验证 4 个页面。
 6. 更新 AGENTS.md 和 docs/变更记录.md，操作手册补一句玻璃分级和字体说明。
 
 ## 硬性约束
