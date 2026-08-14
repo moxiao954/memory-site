@@ -31,7 +31,7 @@
 
 - **暖光放映室**：个人动画记录站
   - GitHub：https://github.com/moxiao954/anime-gallery
-  - 在线演示：https://anime-gallery.netlify.app
+  - 在线演示：https://anime-gallery-991.netlify.app
 - **向心力演示 · 火车轨道**：课堂辅助物理演示
   - GitHub：https://github.com/moxiao954/centripetal-force-demo
   - 在线演示：https://centripetal-force-demo.netlify.app
