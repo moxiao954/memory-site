@@ -33,7 +33,7 @@
       <div class="zone-inner">
         <div class="page-header">
           <div class="page-kicker hud-kicker" data-label="DIARY">DIARY</div>
-          <h1 class="page-title glitch-title" data-text="学习日记">学习日记</h1>
+          <h1 class="page-title ">学习日记</h1>
           <p>一条从零开始的 AI 学习路线。节点按时间从左到右排列（最早在左、最近在右），加载时会依次点亮，引导你按顺序浏览。</p>
         </div>
       </div>
@@ -100,7 +100,8 @@
   <script>
     renderTimeline(document.getElementById("full-timeline"), {
       maxItems: 0,
-      animated: true
+      animated: true,
+      controls: true
     });
   </script>
 </body>

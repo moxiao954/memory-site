@@ -27,6 +27,15 @@
 | 🛤 学习日记 | 横向时间线（网站核心） |
 | 📝 博客 | 学习笔记 · 踩坑记录 |
 
+## 🗂 项目作品集
+
+- **暖光放映室**：个人动画记录站
+  - GitHub：https://github.com/moxiao954/anime-gallery
+  - 在线演示：https://anime-gallery.netlify.app
+- **向心力演示 · 火车轨道**：课堂辅助物理演示
+  - GitHub：https://github.com/moxiao954/centripetal-force-demo
+  - 在线演示：https://centripetal-force-demo.netlify.app
+
 ## 🛠 技术栈
 
 - **纯静态**：HTML + CSS + 原生 JavaScript

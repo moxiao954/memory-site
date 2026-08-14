@@ -58,7 +58,10 @@ memory-site/
 - 实现 UI 视觉升级前，先读 `docs/UI视觉升级需求文档.md`。
 - 需要可复制的执行提示词时，使用 `docs/AI实施提示词.md`。
 - 全站玻璃分三级：`glass-sm`（角标、筛选按钮）、`glass-md`（卡片、时间线卡片）、`glass-lg`（导航、CTA、放大弹层）。
-- 每页强调色由 `<body>` 上的 `page-index` / `page-about` / `page-projects` / `page-diary` / `page-blog` 类控制，最多 2 个强调色。
+- 全站统一使用深色底 + 暖金单高光（`#E3B36D` / `#F2D394`），不再按页面切换青紫霓虹强调色。
+- 本地得意黑 `fonts/SmileySans-Oblique.ttf.woff2` 仅用于关键标题（`.hero-title`、`.page-title`、`.section-title`、`.cta-section h2`、`.tl-title`），正文保持 Inter 与微软雅黑。
+- 分区使用纵向骨架线 + 留白，不新增横向光弧或扫光；不引入 `.glitch-title` 故障效果与随机刷字。
+- 学习日记数据项不包含 `link` 字段，点击卡片在站内放大查看。
 
 ### 改动纪律
 

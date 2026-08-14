@@ -1,19 +1,18 @@
 /**
  * ============================================================
  * 学习日记 · 数据与全局动效脚本（js/main.js）
- * 规范来源：ui设计_现代赛博版_v3.txt
+ * 需求来源：docs/UI视觉升级需求文档.md v2.0
  * ============================================================
  * 【如何添加新记录】
  *   就在本文件下方 timelineData 数组中，按时间顺序（新的放后面）添加一行：
  *
  *   {
- *     time: "2026.08",              // 时间（年月）
+ *     time: "2026.08.02",           // 时间（年月日）
  *     title: "学到了什么（一句话）",  // 学了什么（一句话）
- *     desc: "一两句补充说明",         // 一两句补充说明
- *     link: ""                       // 可选：对应的文章或项目网址
+ *     desc: "一两句补充说明"          // 一两句补充说明
  *   }
  *
- *   - link 留空时，该节点不显示链接。
+ *   - 学习日记不再包含外部链接，点击卡片直接在站内放大查看完整内容。
  *   - 数组为空时，页面显示"待开始记录"提示，时间线框架仍保留。
  *   - 添加记录后无需修改任何 HTML 文件，刷新页面即可看到。
  * ============================================================
@@ -21,28 +20,24 @@
 
 var timelineData = [
   {
-    time: "2026.07",
+    time: "2026.07.14",
     title: "入门 Claude Code，接入 DeepSeek 大模型",
-    desc: "学会使用 cc switch 工具把 Claude Code 的模型接口转接到 DeepSeek，开始低成本使用 AI 辅助学习。",
-    link: ""
+    desc: "学会使用 cc switch 工具把 Claude Code 的模型接口转接到 DeepSeek，开始低成本使用 AI 辅助学习。"
   },
   {
-    time: "2026.07",
+    time: "2026.07.15",
     title: "认识 AI 开发工具生态",
-    desc: "学习了 Skills（技能）、MCP 服务器（MCP server）、CLI 工具（command-line interface）等概念，理解了这些工具如何让 AI 帮人干活。",
-    link: ""
+    desc: "学习了 Skills（技能）、MCP 服务器（MCP server）、CLI 工具（command-line interface）等概念，理解了这些工具如何让 AI 帮人干活。"
   },
   {
-    time: "2026.08",
+    time: "2026.08.02",
     title: "搭建个人网站并上传到 GitHub",
-    desc: "使用 Claude Code + DeepSeek 从零搭建了现代赛博风格的个人学习分享网站，发布到 GitHub Pages（GitHub Pages）免费托管，正式上线。",
-    link: "https://moxiao954.github.io/memory-site/"
+    desc: "使用 Claude Code + DeepSeek 从零搭建了现代赛博风格的个人学习分享网站，发布到 GitHub Pages（GitHub Pages）免费托管，正式上线。"
   },
   {
-    time: "2026.08",
+    time: "2026.08.09",
     title: "使用 Codex 大幅调整 UI",
-    desc: "通过 Codex 把网站升级为深空星图风格，优化卡片点击放大、背景星星与鼠标网格交互，并同步到 GitHub。",
-    link: "https://moxiao954.github.io/memory-site/"
+    desc: "通过 Codex 把网站升级为深空星图风格，优化卡片点击放大、背景星星与鼠标网格交互，并同步到 GitHub。"
   }
 ];
 
@@ -57,13 +52,14 @@ function escapeHtml(s) {
 
 /**
  * ============================================================
- * 时间线渲染（V3 现代极简版）
+ * 时间线渲染（暖色单高光版）
  * ============================================================
  * @param {HTMLElement} container 时间线容器元素
  * @param {Object} options
  *   - maxItems : 最多显示最近几条（0 = 全部）
  *   - animated : 是否播放"依次点亮"动画（默认 true）
  *   - compact  : 紧凑模式（首页概览用）
+ *   - controls : 是否附带滑条控件（左右箭头 + 进度条，日记页用）
  */
 function renderTimeline(container, options) {
   if (!container) return;
@@ -71,6 +67,7 @@ function renderTimeline(container, options) {
   var maxItems = options.maxItems || 0;
   var animated = options.animated !== false;
   var compact = !!options.compact;
+  var withControls = !!options.controls;
 
   // 数据按时间升序排序（最早在左、最近在右）
   var items = timelineData.slice().sort(function (a, b) {
@@ -101,18 +98,18 @@ function renderTimeline(container, options) {
   var totalMs = Math.min(2000, 350 * items.length);
   var delayMs = items.length > 1 ? totalMs / (items.length - 1) : 0;
 
+  var scrollerId = "tl-scroller-" + Math.random().toString(36).slice(2, 8);
+
   var html =
-    '<div class="timeline' + (compact ? ' compact' : '') + (animated ? '' : ' no-anim') + '">' +
-      '<div class="tl-line"></div>' +
-      '<div class="tl-track">';
+    '<div class="tl-scroller">' +
+      '<div class="timeline' + (compact ? ' compact' : '') + (animated ? '' : ' no-anim') + '" id="' + scrollerId + '">' +
+        '<div class="tl-line"></div>' +
+        '<div class="tl-track">';
 
   for (var i = 0; i < items.length; i++) {
     var it = items[i];
     var pos = (i % 2 === 0) ? "top" : "bottom";          // 上下交错排布
     var isCurrent = (i === items.length - 1);            // 最后一个节点标记为"最新"
-    var linkHtml = it.link
-      ? '<a class="tl-link" href="' + escapeHtml(it.link) + '" target="_blank" rel="noopener">了解更多 →</a>'
-      : "";
     html +=
       '<div class="tl-node tl-node-' + pos + (isCurrent ? ' tl-node-current' : '') + '">' +
         '<div class="tl-dot"></div>' +
@@ -123,12 +120,26 @@ function renderTimeline(container, options) {
           '</div>' +
           '<div class="tl-title">' + escapeHtml(it.title) + '</div>' +
           '<div class="tl-desc">' + escapeHtml(it.desc) + '</div>' +
-          linkHtml +
         '</div>' +
       '</div>';
   }
 
   html += '</div></div>';
+
+  // 日记页：附带滑条控件（左右箭头 + 进度条）
+  if (withControls) {
+    html +=
+      '<div class="tl-controls">' +
+        '<button class="tl-nav-prev" type="button" aria-label="向左滚动" disabled>' +
+          '<svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>' +
+        '</button>' +
+        '<div class="tl-progress"><div class="tl-progress-fill"></div></div>' +
+        '<button class="tl-nav-next" type="button" aria-label="向右滚动" disabled>' +
+          '<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>' +
+        '</button>' +
+      '</div>';
+  }
+
   container.innerHTML = html;
 
   // ---- 依次点亮动画：每个节点设置递增 animation-delay（ms）后触发 ----
@@ -139,19 +150,62 @@ function renderTimeline(container, options) {
       nodes[k].classList.add("animate");
     }
   }
+
+  // ---- 滑条控件：绑定滚动同步 ----
+  if (withControls) {
+    initTimelineControls(container, scrollerId);
+  }
+}
+
+/**
+ * 横向滑条控件：左右箭头 + 进度条，随滚动同步
+ */
+function initTimelineControls(container, scrollerId) {
+  var scroller = document.getElementById(scrollerId);
+  if (!scroller) return;
+
+  var prev = container.querySelector(".tl-nav-prev");
+  var next = container.querySelector(".tl-nav-next");
+  var fill = container.querySelector(".tl-progress-fill");
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function update() {
+    var max = scroller.scrollWidth - scroller.clientWidth;
+    var atLeft = scroller.scrollLeft <= 2;
+    var atRight = scroller.scrollLeft >= max - 2;
+    prev.disabled = atLeft;
+    next.disabled = atRight;
+    var pct = max > 0 ? (scroller.scrollLeft / max) * 100 : 0;
+    fill.style.width = pct + "%";
+  }
+
+  function step(dir) {
+    var amount = scroller.clientWidth * 0.72;
+    if (reduced) {
+      scroller.scrollLeft += dir * amount;
+    } else {
+      scroller.scrollBy({ left: dir * amount, behavior: "smooth" });
+    }
+  }
+
+  if (prev) prev.addEventListener("click", function () { step(-1); });
+  if (next) next.addEventListener("click", function () { step(1); });
+  scroller.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update, { passive: true });
+  update();
 }
 
 /**
  * ============================================================
- * 微光粒子系统（V3 现代版）
- * 页面加载时生成 20-26 个白色粒子，缓慢上升 + 左右摆动
+ * 微光粒子系统（暖色版）
+ * 页面加载时生成 20-26 个粒子，缓慢上升 + 左右摆动
  * 鼠标移动时轻微排斥
  * ============================================================ */
 function initParticles() {
   var layer = document.getElementById("particles");
   if (!layer) return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  var colors = ["rgba(255,255,255,"];                  // 白
+  var colors = ["rgba(242,211,148,"];                 // 暖金
   var count = 20 + Math.floor(Math.random() * 7); // 20-26
 
   for (var i = 0; i < count; i++) {
@@ -230,10 +284,10 @@ function animateCount(el, target) {
   requestAnimationFrame(step);
 }
 
-/** 计算从第一条学习记录所在月到今天的天数 */
+/** 计算从第一条学习记录所在日到今天的天数 */
 function computeLearningDays() {
   if (!timelineData.length) return 0;
-  // 找出最早记录的时间（"2026.07" → 当年当月）
+  // 找出最早记录的时间（"2026.07.14" → 当年当月当日）
   var earliest = timelineData.slice().sort(function (a, b) {
     return a.time.localeCompare(b.time);
   })[0];
@@ -241,8 +295,9 @@ function computeLearningDays() {
   if (parts.length < 2) return 0;
   var y = parseInt(parts[0], 10);
   var m = parseInt(parts[1], 10);
-  if (!y || !m) return 0;
-  var start = new Date(y, m - 1, 1);                       // 当月 1 号起算
+  var d = parts.length > 2 ? parseInt(parts[2], 10) : 1;
+  if (!y || !m || !d) return 0;
+  var start = new Date(y, m - 1, d);                       // 当天起算
   var now = new Date();
   return Math.max(1, Math.floor((now - start) / 86400000));
 }
@@ -304,12 +359,14 @@ function initNavScroll() {
 
 /**
  * ============================================================
- * 时间线卡片点击放大：从原位置放大到遮罩层，完整显示内容
+ * 时间线卡片点击放大：FLIP / transform 连贯动画
+ * 从原卡片位置平滑放大到弹层目标位置，关闭反向执行
  * ============================================================ */
 function openTimelineCard(card) {
   if (document.querySelector(".tl-expand-overlay")) return;
-  var origin = card.getBoundingClientRect();
+
   var body = document.body;
+  var origin = card.getBoundingClientRect();              // FLIP 第一步：记录起点
 
   var overlay = document.createElement("div");
   overlay.className = "tl-expand-overlay";
@@ -321,54 +378,54 @@ function openTimelineCard(card) {
   expanded.innerHTML = card.innerHTML;
   overlay.appendChild(expanded);
 
+  // 先放到最终位置并测量目标尺寸
   var targetW = Math.min(560, window.innerWidth - 48);
-  expanded.style.width = origin.width + "px";
-  expanded.style.left = origin.left + "px";
-  expanded.style.top = origin.top + "px";
-  expanded.style.opacity = "0";
+  expanded.style.width = targetW + "px";
+  var height = expanded.getBoundingClientRect().height;
+  var maxH = window.innerHeight - 110;
+  var targetH = Math.min(height, maxH);
 
+  var left = origin.left;
+  var top = origin.top;
+  if (left + targetW > window.innerWidth - 24) left = Math.max(24, window.innerWidth - targetW - 24);
+  if (top + targetH > window.innerHeight - 24) top = Math.max(24, window.innerHeight - targetH - 24);
+
+  if (height > maxH) {
+    expanded.style.maxHeight = maxH + "px";
+  }
+  expanded.style.left = left + "px";
+  expanded.style.top = top + "px";
+
+  // 强制一次回流，使浏览器应用最终布局
+  void expanded.offsetHeight;
+
+  // FLIP 第二步 + 第三步：计算差异，把元素从起点反向移动（Invert）
+  var dx = origin.left - left;
+  var dy = origin.top - top;
+  var scaleX = origin.width / targetW;
+  var scaleY = origin.height / targetH;
+  expanded.style.transform = "translate(" + dx + "px, " + dy + "px) scale(" + scaleX + ", " + scaleY + ")";
+
+  // FLIP 第四步：移除 inline transform（回落到 CSS 的 transform: none），触发 Play 动画
   requestAnimationFrame(function () {
-    expanded.style.width = targetW + "px";
-    var height = expanded.getBoundingClientRect().height;
-    var maxH = window.innerHeight - 110;
-    var targetH = Math.min(height, maxH);
-    var left = origin.left;
-    var top = origin.top;
-
-    if (left + targetW > window.innerWidth - 24) {
-      left = Math.max(24, window.innerWidth - targetW - 24);
-    }
-    if (top + targetH > window.innerHeight - 24) {
-      top = Math.max(24, window.innerHeight - targetH - 24);
-    }
-
-    if (height > maxH) {
-      expanded.style.maxHeight = maxH + "px";
-      expanded.style.overflowY = "auto";
-    }
-    expanded.style.left = left + "px";
-    expanded.style.top = top + "px";
-    expanded.style.opacity = "1";
+    expanded.style.transform = "";
     expanded.classList.add("is-open");
   });
 
   function close() {
-    expanded.style.left = origin.left + "px";
-    expanded.style.top = origin.top + "px";
-    expanded.style.width = origin.width + "px";
-    expanded.style.opacity = "0";
+    // 反向播放：从最终位置回到起点
+    expanded.style.transform = "translate(" + dx + "px, " + dy + "px) scale(" + scaleX + ", " + scaleY + ")";
     expanded.classList.remove("is-open");
     body.classList.remove("no-scroll");
     setTimeout(function () {
       overlay.remove();
-    }, 360);
+    }, 450);
   }
 
   overlay.addEventListener("click", function (e) {
     if (e.target === overlay) close();
   });
-  expanded.addEventListener("click", function (e) {
-    if (e.target.closest("a")) return;
+  expanded.addEventListener("click", function () {
     close();
   });
   document.addEventListener("keydown", function onKey(e) {
@@ -382,7 +439,7 @@ function openTimelineCard(card) {
 function initTimelineExpand() {
   document.addEventListener("click", function (e) {
     var card = e.target.closest(".tl-card");
-    if (!card || e.target.closest("a")) return;
+    if (!card) return;
     openTimelineCard(card);
   });
 }
@@ -430,7 +487,7 @@ function initPageReveal() {
 
 /**
  * ============================================================
- * 玻璃高光跟随鼠标：维护 --gx / --gy
+ * 玻璃高光跟随鼠标：维护 --gx / --gy（低透明度暖色）
  * ============================================================ */
 function initGlassSheen() {
   var cards = document.querySelectorAll(".glass-md, .glass-lg");
